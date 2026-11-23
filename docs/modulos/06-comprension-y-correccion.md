@@ -10,8 +10,8 @@
 
 Estrategia en tres pasos, de lo general a lo particular:
 
-1. **Panorama** (modo Ask): "Resume qué hace este script, sus entradas y salidas."
-2. **Detalle** (`/explain` sobre una selección): línea por línea o por bloques.
+1. **Panorama** (agente Ask): "Resume qué hace este script, sus entradas y salidas."
+2. **Detalle** (selecciona el código, inline chat o chat con la selección y pide "explica esto línea por línea o por bloques").
 3. **Mapa de dependencias**: "¿Qué funciones llaman a esta? ¿Qué pasa si cambio su resultado?"
 
 > **Consejo**
@@ -33,7 +33,7 @@ Flujo:
 
 1. Reproduce el problema.
 2. Pide **causa** antes que corrección: "¿por qué ocurre?"
-3. Aplica `/fix` o la corrección propuesta.
+3. Pide la corrección con un prompt concreto y revisa el diff antes de aceptarla.
 4. **Verifica**: vuelve a ejecutar y comprueba.
 
 > **Atención**
@@ -42,7 +42,7 @@ Flujo:
 
 ## Navegar una base de código con preguntas
 
-Con `#codebase` puedes preguntar:
+Con el agente **Agent** (o Ask), que explora el proyecto, puedes preguntar:
 
 - "¿Dónde se calcula el total del pedido?"
 - "¿Qué endpoints modifican datos?"

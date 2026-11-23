@@ -8,8 +8,8 @@ Duración efectiva: 7 h 50 min, con 10 min de holgura para llegar a las 17:00.
 | 09:20 – 11:00 | 100 | 2. Autocompletado (3 tramos aislados + ejercicio completo de 50 min) | Teoría + práctica |
 | 11:00 – 11:10 | 10 | Descanso | |
 | 11:10 – 11:30 | 20 | 3. Chat | Teoría + demo |
-| 11:30 – 11:50 | 20 | 4. Contextualización | Teoría + demo |
-| 11:50 – 12:05 | 15 | 5. Prompting | Teoría |
+| 11:30 – 11:55 | 25 | 4. Contextualización (incluye verificar instrucciones y skills) | Teoría + demo |
+| 11:55 – 12:05 | 10 | 5. Prompting | Teoría |
 | 12:05 – 12:35 | 30 | **Ejercicio 2** (módulos 3, 4 y 5) | Práctica |
 | 12:35 – 13:25 | 50 | Comida | |
 | 13:25 – 14:05 | 40 | 6. Comprensión y corrección (10 min teoría + **Ejercicio 3** de 30 min) | Teoría + práctica |

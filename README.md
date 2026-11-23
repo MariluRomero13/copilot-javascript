@@ -9,8 +9,8 @@ Los ejercicios usan **Farmacia Demo**, un caso ficticio con medicamentos, existe
 ## Qué aprenderás
 
 - Usar sugerencias inline, Next Edit Suggestions y desarrollo guiado por comentarios.
-- Trabajar con el chat (Ask, Plan, Agent), slash commands y selección de modelo.
-- Dar contexto y reglas a Copilot con variables, custom instructions y prompt files.
+- Trabajar con el chat y sus agentes (Agent, Plan, Ask), comandos de barra y selección de modelo.
+- Dar contexto y reglas a Copilot con Add Context, instrucciones del repositorio y skills.
 - Escribir prompts efectivos e iterar sobre las respuestas.
 - Entender y corregir código legacy.
 - Delegar cambios multi-archivo al agente con control y revisión humana.

@@ -4,15 +4,20 @@
 
 El temario original usa **Jest** (JavaScript). La pista Python usa **pytest** y la pista C# usa **xUnit**, sus equivalentes. Los conceptos son los mismos.
 
-## Generación de pruebas con `/tests`
+## Generación de pruebas con un prompt
 
-1. Selecciona la función o abre el archivo.
-2. Escribe `/tests` (opcionalmente con instrucciones).
+Ya no existe `/tests`. Se piden las pruebas con un prompt con contexto:
+
+1. Adjunta el archivo a probar (Add Context o arrástralo al chat).
+2. Pide las pruebas indicando el framework y el estilo.
 3. **Lee** las pruebas generadas antes de aceptarlas.
 
 ```text
-/tests usa Jest y test.each para los casos de frontera
+Genera pruebas con Jest para el archivo adjunto. Usa test.each para los casos de frontera
+y agrega un caso borde por función. No modifiques el código fuente.
 ```
+
+Si el equipo repite este prompt, conviértelo en una **skill** (módulo 4) o en una instrucción `.instructions.md` con `applyTo: "**/*.test.js"`.
 
 Revisa que cada prueba:
 
@@ -22,7 +27,7 @@ Revisa que cada prueba:
 
 ## Ejecutar e iterar hasta tener pruebas en verde
 
-En modo Agent:
+Con el agente Agent:
 
 ```text
 Genera pruebas para descuentos con el framework del proyecto y ejecútalas.
@@ -34,6 +39,10 @@ Ese **"antes de corregir"** es clave: si Copilot modifica la prueba para que pas
 ```bash
 npm test
 ```
+
+## Depurar un fallo leyendo el error de la terminal
+
+Cuando una prueba falla, adjunta la salida de la terminal al chat (Add Context) y pide: "Explica por qué falla y si el error está en la prueba o en el código. No corrijas todavía."
 
 ## Casos borde y cobertura
 

@@ -12,7 +12,7 @@ El modo Agent trabaja por ti en varios pasos: lee archivos, edita varios a la ve
 
 Para cualquier cambio no trivial:
 
-1. Pide un plan (modo **Plan**) y léelo.
+1. Pide un plan con el agente **Plan** y léelo.
 2. Ajusta lo que no te convenza: "no uses una clase nueva", "no toques `templates/`".
 3. Solo entonces pasa a ejecutar.
 
@@ -23,6 +23,7 @@ Un plan que revisas en 2 minutos te ahorra 20 minutos de deshacer cambios.
 - El agente propone ediciones en varios archivos; las ves como **diffs**.
 - Antes de ejecutar un comando de terminal te pide **aprobación**. Léelo antes de aprobar: `pip install`, borrados y comandos de red merecen atención extra.
 - Puedes rechazar un comando y explicar por qué.
+- Existe la aprobación automática (por ejemplo `/yolo`). **No la actives en el curso**: el agente ejecutaría comandos sin que los leas.
 
 ## Revisión de diffs, checkpoints y cómo deshacer
 
@@ -30,6 +31,7 @@ Un plan que revisas en 2 minutos te ahorra 20 minutos de deshacer cambios.
 |---|---|
 | Aceptar o rechazar un archivo | Botones **Keep** / **Undo** por archivo o por bloque |
 | Volver a un punto anterior de la conversación | **Checkpoint**: restaura archivos y chat a ese momento |
+| Probar otra idea sin perder la sesión | `/fork`: bifurca la conversación |
 | Cambios ya aceptados | `Ctrl+Z` en el archivo o `git restore` / `git diff` |
 | Seguridad extra | Haz `git commit` antes de empezar una tarea grande |
 
@@ -43,6 +45,7 @@ Un plan que revisas en 2 minutos te ahorra 20 minutos de deshacer cambios.
 - Prohíbe explícitamente: "No cambies las pruebas existentes ni `requirements.txt`."
 - Pide confirmación: "Antes de instalar paquetes, pregúntame."
 - Si el agente se desvía, **detén la sesión** y reformula; no sigas parchando.
+- En sesiones largas el contexto se llena: usa `/compact` para resumir la conversación.
 
 ## Demo del instructor (8 min)
 

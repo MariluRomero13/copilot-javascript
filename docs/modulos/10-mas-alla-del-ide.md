@@ -4,6 +4,10 @@
 
 Tres capacidades que llevan Copilot del editor al flujo de equipo completo.
 
+## 10.0 Resumen de PR con Copilot
+
+Al crear un Pull Request, el botón de Copilot en la descripción genera un resumen de los cambios. Revísalo antes de publicarlo.
+
 ## 10.1 Cloud agent: delegar una tarea y recibir un Pull Request
 
 El **cloud agent** trabaja en segundo plano en un entorno remoto, sobre un issue, y entrega un **Pull Request** para que lo revises.
@@ -17,7 +21,7 @@ Flujo:
 
 > **Costos y tiempos**
 >
-> Cada tarea consume solicitudes premium y puede tardar varios minutos. Para la demo en vivo, **lanza la tarea con anticipación** o usa un PR ya generado.
+> Cada tarea consume créditos de IA y puede tardar varios minutos. Para la demo en vivo, **lanza la tarea con anticipación** o usa un PR ya generado.
 
 Un issue vago produce un PR vago: la calidad del issue es la calidad del resultado.
 
@@ -29,6 +33,9 @@ Copilot puede revisar un Pull Request y dejar comentarios (a veces con cambios s
 - Detecta bugs probables, problemas de seguridad y mejoras de estilo.
 - **Complementa, no reemplaza**, la revisión humana.
 - Respeta las instrucciones del repositorio.
+- Sus comentarios son de tipo **Comment** (no aprueba ni bloquea) y los problemas se pueden resolver con **Fix with Copilot**.
+- Consume créditos de IA y minutos de GitHub Actions.
+- Puede no dejar ningún comentario si no detecta problemas: ten un PR de respaldo con errores deliberados.
 
 Para practicar la revisión de un cambio generado con IA, hay un [ejercicio opcional](../ejercicios/ej-opcional-revision-pr.md) (fuera de la agenda).
 
@@ -50,6 +57,8 @@ Demo con el servidor de **Microsoft Learn** (documentación oficial como context
 ```
 
 El instructor lo agrega en `.vscode/mcp.json` para la demo.
+
+Las organizaciones pueden restringir MCP con una política. Si no funciona en tu cuenta, revisa esa política.
 
 Seguridad:
 

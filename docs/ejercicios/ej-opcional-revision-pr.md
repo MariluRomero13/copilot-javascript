@@ -43,7 +43,7 @@ Lee primero `DESCRIPCION_DEL_PR.md`. El cambio está en `ajusteStock.js` y sus p
 
 Pide una revisión a Copilot **después** de haber anotado tus hallazgos. Elige una:
 
-- **Chat:** modo Ask con `#file:ajusteStock.js` y `#file:ajusteStock.test.js`. Pide: "Revisa este cambio como lo haría un revisor de seguridad y calidad. Lista problemas con gravedad y cómo reproducirlos."
+- **Chat:** agente Ask con `ajusteStock.js` y `ajusteStock.test.js` adjuntos (Add Context). Pide: "Revisa este cambio como lo haría un revisor de seguridad y calidad. Lista problemas con gravedad y cómo reproducirlos."
 - **Code review en el editor:** si tu versión de VS Code lo ofrece, usa la acción de revisión de Copilot en el panel de control de código fuente o sobre una selección.
 - **Code review en un PR real:** si tienes una copia del repositorio donde puedas subir una rama, crea un PR y agrega a Copilot como revisor.
 

@@ -18,10 +18,10 @@ Debe mostrar el **top 3 de vendedores**, el **ticket promedio por sucursal** y e
 
 Usando Copilot (**sin leer primero el código por tu cuenta**):
 
-1. En modo Ask: "Resume qué hace este script, sus entradas y sus salidas."
-2. Selecciona la función `f` y usa `/explain`.
+1. Con el agente Ask: "Resume qué hace este script, sus entradas y sus salidas."
+2. Selecciona la función `f` y pide en el chat: "explica esta selección por bloques".
 3. Pide nombres descriptivos para `f`, `d`, `r`, `t`, `g`, `s`, `k`.
-4. Con `#codebase`: "¿Qué columnas del CSV usa el script y en qué posición?"
+4. Con el agente Agent (explora el proyecto solo) o adjuntando `ventas.csv`: "¿Qué columnas del CSV usa el script y en qué posición?"
 
 **Entregable:** un párrafo (3 a 5 líneas) con tu explicación del script, escrito **con tus palabras**.
 

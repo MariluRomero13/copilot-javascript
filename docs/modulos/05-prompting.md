@@ -10,7 +10,7 @@
 
 | Elemento | Pregunta que responde | Ejemplo |
 |---|---|---|
-| **Contexto** | ¿Dónde estamos? | "En la API Flask de `#file:src/app.py`…" |
+| **Contexto** | ¿Dónde estamos? | "En la API Flask de `src/app.py` (adjunta el archivo)…" |
 | **Intención** | ¿Qué quiero lograr? | "…agrega validación al endpoint `POST /products`" |
 | **Restricciones** | ¿Qué límites hay? | "…sin nuevas dependencias, no cambies otros endpoints" |
 | **Ejemplo** | ¿Cómo se ve lo correcto? | "Si el precio es negativo, responde 400 con `{'error': '...'}`" |
@@ -19,7 +19,7 @@
 
 ❌ `hazme validaciones`
 
-✅ `En #file:src/app.py agrega validación al endpoint POST /products: nombre obligatorio (texto no vacío), precio numérico mayor o igual a 0 y categoría dentro de CATEGORIAS. Si falla, responde 400 con {"error": "<motivo>"}. No cambies los demás endpoints ni agregues dependencias.`
+✅ `En src/app.py (adjunto) agrega validación al endpoint POST /products: nombre obligatorio (texto no vacío), precio numérico mayor o igual a 0 y categoría dentro de CATEGORIAS. Si falla, responde 400 con {"error": "<motivo>"}. No cambies los demás endpoints ni agregues dependencias.`
 
 ## Antipatrones
 

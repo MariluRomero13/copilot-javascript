@@ -5,7 +5,7 @@
 - [GitHub Copilot docs](https://docs.github.com/copilot)
 - [Copilot en VS Code](https://code.visualstudio.com/docs/copilot/overview)
 - [Custom instructions](https://docs.github.com/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)
-- [Prompt files en VS Code](https://code.visualstudio.com/docs/copilot/customization/prompt-files)
+- [Prompt files en VS Code](https://code.visualstudio.com/docs/copilot/customization/prompt-files) y skills (consulta la sección de personalización de agentes)
 - [Copilot cloud agent](https://docs.github.com/copilot/concepts/agents/coding-agent/about-coding-agent)
 - [Copilot code review](https://docs.github.com/copilot/concepts/code-review/code-review)
 - [Planes y precios](https://github.com/features/copilot/plans)
@@ -33,10 +33,11 @@ En macOS cambia `Ctrl` por `Cmd` y `Alt` por `Option`. Los atajos pueden variar 
 
 | Elemento | Uso |
 |---|---|
-| `/explain` | Explica el código seleccionado |
-| `/fix` | Propone una corrección |
-| `/tests` | Genera pruebas |
-| `/doc` | Documenta el código |
-| `#file` `#selection` `#codebase` | Variables de contexto |
-| `.github/copilot-instructions.md` | Reglas que aplican a todo el proyecto |
-| `.github/prompts/*.prompt.md` | Prompts reutilizables |
+| `/compact` | Resume la conversación para liberar contexto |
+| `/fork` | Bifurca la sesión |
+| `/create-instruction`, `/create-skill` | Generan instrucciones o skills desde el chat |
+| Add Context / arrastrar archivos | Agrega contexto al chat (`#` donde esté disponible) |
+| `.github/copilot-instructions.md` o `AGENTS.md` | Reglas que aplican a todo el proyecto |
+| `.github/instructions/*.instructions.md` | Reglas por patrón de archivos (`applyTo`) |
+| `.github/skills/*/SKILL.md` | Skills reutilizables (recomendado) |
+| `.github/prompts/*.prompt.md` | Prompt files (solo harness Local, en desuso) |

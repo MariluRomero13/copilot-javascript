@@ -32,16 +32,16 @@ El endpoint `POST /orders` calcula el total del pedido sin descuentos. Negocio p
 ## Parte 1: planear (10 min)
 
 1. Haz `git commit` (o crea una rama) para tener un punto de retorno.
-2. En modo **Plan**, pega las reglas y las restricciones.
+2. Con el agente **Plan**, pega las reglas y las restricciones.
 3. Lee el plan. Ajusta al menos una cosa (por ejemplo, la estructura de datos de los cupones).
 4. **No ejecutes todavía.**
 
 ## Parte 2: ejecutar con control (20 min)
 
-1. Pasa a modo **Agent** y ejecuta el plan.
+1. Pasa al agente **Agent** y ejecuta el plan. No actives la aprobación automática.
 2. Lee **cada comando de terminal** antes de aprobarlo.
 3. Revisa los diffs por archivo. Practica **Undo** en al menos un cambio que no te guste.
-4. Prueba un **checkpoint**: restaura uno y vuelve a avanzar.
+4. Prueba un **checkpoint**: restaura uno y vuelve a avanzar. Si la sesión se alarga, usa `/compact`.
 5. Verifica con `git status` que **solo** se tocaron los archivos permitidos.
 
 Prueba manual (en una terminal `npm start`, en otra):
@@ -53,7 +53,7 @@ curl -X POST localhost:5000/orders -H "Content-Type: application/json" \
 
 ## Parte 3: pruebas en verde (25 min)
 
-1. Con `/tests` genera pruebas con Jest para `descuentos.js` y, con supertest, para `POST /orders` (en `src/tests/`).
+1. Adjunta `src/descuentos.js` y pide pruebas con Jest, y con supertest para `POST /orders` (en `src/tests/`). Indica el estilo en el prompt (`test.each`, un caso borde por función).
 2. Pide al agente que las ejecute **y que explique si el fallo está en la prueba o en el código antes de corregir**.
 3. Pide explícitamente casos borde: 4 vs. 5 y 9 vs. 10 piezas, el tope del 20 %, receta faltante o inválida, cantidad negativa, cupón vencido, subtotal cero.
 4. Mide cobertura:

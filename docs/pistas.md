@@ -23,7 +23,7 @@ Los módulos de teoría usan ejemplos de la pista Python. En las otras pistas, e
 | `src/tests/test_app.py` | `src/tests/app.test.js` | `tests/Farmacia.Api.Tests/ApiTests.cs` |
 | `src/templates/catalogo.html` | `web/Catalogo.jsx` | `src/Farmacia.Api/Pages/Catalogo.cshtml` |
 | `ejercicios/ej1-autocompletado/inventario.py` | `ejercicios/ej1-autocompletado/inventario.js` | `ejercicios/ej1-autocompletado/Inventario.cs` |
-| `pytest`, `/tests` con pytest | `jest`, `/tests` con Jest | `dotnet test`, `/tests` con xUnit |
+| `pytest` (prompt con el archivo adjunto) | `jest` (prompt con el archivo adjunto) | `dotnet test` con xUnit (prompt con el archivo adjunto) |
 | `requirements.txt` | `package.json` | `Farmacia.Api.csproj` |
 
 ## Rutas de los enunciados
