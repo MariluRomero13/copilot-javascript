@@ -13,43 +13,45 @@ if [ -e "$DEST" ] && [ -n "$(ls -A "$DEST" 2>/dev/null)" ]; then
 fi
 mkdir -p "$DEST"
 
-# 1. Archivos que SÍ van al repo de alumnos (lista blanca)
+# 1. Archivos que SÍ van al repo de alumnos (lista blanca). La carpeta docs/ es del instructor y NO se copia.
 INCLUIR=(
   .devcontainer .vscode .gitignore
   LICENSE SECURITY.md SUPPORT.md
   package.json package-lock.json jest.config.cjs babel.config.cjs vite.config.js index.html
   src test web
-  ejercicios docs
+  ejercicios
 )
 for item in "${INCLUIR[@]}"; do
   cp -R "$ROOT/$item" "$DEST/$item"
 done
 
-# 2. Quitar lo que es solo del instructor
-rm -f "$DEST/docs/guia-instructor.md" "$DEST/docs/pistas.md"
-
-# 3. Superponer los archivos pensados para alumnos
+# 2. Superponer los archivos pensados para alumnos (README y Ejercicio 0)
 cp -R "$ROOT/plantilla-alumnos/." "$DEST/"
 
-# 4. Limpiar referencias a otras pistas y a archivos del instructor
-python3 - "$DEST" <<'PY'
-import re, sys, pathlib
-dest = pathlib.Path(sys.argv[1])
-for md in dest.rglob("*.md"):
-    s = md.read_text(encoding="utf-8")
-    o = s
-    # Bloque "Pistas Python y JavaScript" (cita de 3 líneas + línea en blanco)
-    s = re.sub(r"> \*\*Pistas Python y JavaScript\*\*\n>\n> [^\n]*\n\n", "", s)
-    # Líneas de recursos de otras pistas
-    s = "\n".join(l for l in s.split("\n") if "(pista Python)" not in l and "(pista C#)" not in l)
-    if s != o:
-        md.write_text(s, encoding="utf-8")
+# 3. Cada enunciado (docs/ejercicios/X.md) pasa a ser el README.md de su carpeta de ejercicio
+python3 - "$ROOT" "$DEST" <<'PY'
+import re, sys, pathlib, shutil
+root, dest = map(pathlib.Path, sys.argv[1:3])
+carpetas = ["ej1-autocompletado", "ej2-chat-contexto-prompting", "ej3-codigo-legacy",
+            "ej4-agent-descuentos", "ej5-imagen-a-codigo", "ej-opcional-revision-pr"]
+for c in carpetas:
+    s = (root / "docs" / "ejercicios" / f"{c}.md").read_text(encoding="utf-8")
+    # Los módulos son material del instructor: se deja el nombre sin enlace
+    s = re.sub(r"\[([^\]]+)\]\((?:\.\./)+modulos/[^)]+\)", r"\1", s)
+    s = s.replace("](../assets/mockup-catalogo.png)", "](mockup-catalogo.png)")
+    carpeta = dest / "ejercicios" / c
+    carpeta.mkdir(parents=True, exist_ok=True)
+    (carpeta / "README.md").write_text(s, encoding="utf-8")
+# La referencia a docs/ del código de partida apunta ahora al README de la carpeta
+inv = dest / "ejercicios/ej1-autocompletado/inventario.js"
+t = inv.read_text(encoding="utf-8").replace("docs/ejercicios/ej1-autocompletado.md", "ejercicios/ej1-autocompletado/README.md")
+inv.write_text(t, encoding="utf-8")
 PY
 
-# 5. Archivos sin dependencias del instructor: se comprueba que no queden enlaces rotos a ellos
-if grep -rn "pistas.md\|guia-instructor" "$DEST/docs" "$DEST/README.md" >/dev/null 2>&1; then
-  echo "Aviso: quedan enlaces a archivos del instructor:" >&2
-  grep -rn "pistas.md\|guia-instructor" "$DEST/docs" "$DEST/README.md" >&2 || true
+# 4. Comprobar que no queda nada del instructor ni enlaces a docs/
+if grep -rnE "docs/|guia-instructor|pistas\.md|\.\./modulos" "$DEST" --include=*.md --include=*.js --exclude-dir=node_modules --exclude-dir=.git >/dev/null 2>&1; then
+  echo "Aviso: quedan referencias a docs/ o al instructor:" >&2
+  grep -rnE "docs/|guia-instructor|pistas\.md|\.\./modulos" "$DEST" --include=*.md --include=*.js --exclude-dir=node_modules --exclude-dir=.git >&2 || true
 fi
 
 if [ "$INIT_GIT" = "--git" ]; then
