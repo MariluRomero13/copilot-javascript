@@ -96,3 +96,7 @@ Tres ideas para llevarse:
 3. Tú eres el autor: si no puedes explicarlo, no lo aceptes.
 
 Cierra con los recursos (`docs/recursos.md`) y recuerda las reglas de datos ficticios.
+
+## Guía paso a paso de los ejercicios
+
+Para el guion de cada ejercicio (pasos, señales de alerta y los bugs del Ejercicio 3), consulta la [guía de ejercicios](guia-instructor-ejercicios.md).
