@@ -1,0 +1,17 @@
+# Instrucciones del proyecto
+
+## Contexto
+- API de una farmacia ficticia con Express (CommonJS, `require` y `module.exports`).
+- Pruebas con Jest.
+
+## Estilo de código
+- Usa `const` y `let`; nunca `var`.
+- Escribe los nombres de funciones y variables en español y en camelCase.
+- Agrega JSDoc en español a cada función, con parámetros, retorno y un ejemplo.
+
+## Validación
+- Valida siempre la entrada de los endpoints antes de usarla.
+- Si la validación falla, responde con código 400 y un objeto `{ "error": "<motivo>" }`.
+
+## Restricciones
+- No agregues dependencias nuevas sin preguntar.

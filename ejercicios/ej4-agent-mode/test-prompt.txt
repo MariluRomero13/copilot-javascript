@@ -1,0 +1,33 @@
+Escribe pruebas con Jest para el módulo de descuentos del archivo adjunto src/descuentos.js, y pruebas de integración con supertest para el endpoint POST /orders de src/app.js.
+
+Dónde:
+- Pruebas del módulo: src/tests/descuentos.test.js
+- Pruebas del endpoint: src/tests/orders.test.js
+
+Reglas de negocio que debes cubrir:
+- Descuento por volumen: de 5 a 9 piezas, 5 %; 10 o más, 10 %; menos de 5, sin descuento.
+- Cupones SALUD10 (10 %) y ADULTOMAYOR15 (15 %), sin distinguir mayúsculas de minúsculas.
+- Cupón vencido o inexistente: respuesta 400.
+- Volumen y cupón se suman, con un tope total de 20 %.
+- Si algún producto requiere receta, el pedido necesita el campo receta con un folio no vacío; si no, 400.
+- cantidad debe ser un entero mayor que cero; si no, 400.
+- La respuesta incluye subtotal, descuento, porcentaje_descuento y total.
+
+Estilo:
+- Usa test.each para los casos de frontera.
+- Incluye al menos un caso borde por función.
+
+Casos borde obligatorios:
+- 4 y 5 piezas, y 9 y 10 piezas.
+- Descuento que supera el tope de 20 %.
+- Receta ausente, vacía y solo con espacios.
+- cantidad negativa, cero y decimal.
+- Cupón en minúsculas, vencido e inexistente.
+- Pedido con subtotal cero.
+
+Restricciones:
+- No modifiques src/descuentos.js ni src/app.js.
+- No agregues dependencias nuevas.
+- Si una prueba falla, NO cambies el código ni la prueba todavía.
+
+Ejecuta las pruebas con npm test y dime cuáles pasan y cuáles fallan. Para cada fallo, explica si el error está en la prueba o en el código, y por qué. Espera mi confirmación antes de corregir.

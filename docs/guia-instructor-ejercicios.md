@@ -56,9 +56,13 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 **Tramo A: ghost text (10 min)** · `tramoA_ghostText.js`
 
-1. Que borren el cuerpo de cada función y escriban solo la firma.
+1. Que borren el cuerpo de cada función y escriban solo la firma. Juntar las llaves, dar CRTL + Enter y ver que sugerencia hace copilot.
 2. Que practiquen aceptar, descartar, alternar y aceptar palabra por palabra.
 3. En `esEmailValido`, que prueben `a@b`, `a@@b.com` y un correo vacío. La idea es que una sugerencia puede verse bien y estar mal.
+    * En la terminal abrir cd ejercicios/ej1-autocompletado, node -i,
+    * Cargar: const { esEmailValido } = require('./tramoA_ghostText');
+    * Probar la función con: esEmailValido('a@@b.com');
+    * Para salir con CRTL+C
 4. Entregable: las 4 funciones y una nota con **una sugerencia que rechazaron** y por qué.
 
 **Tramo B: por comentarios (10 min)** · `tramoB_comentarios.js`
@@ -108,16 +112,23 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 **Parte 2: contexto e instrucciones (10 min)**
 
 1. Adjuntan `src/app.js` (Add Context o arrastrando) y preguntan qué validaciones faltan en `POST /products`.
-2. Crean `.github/copilot-instructions.md` con **al menos 4 reglas verificables** (por ejemplo `const` y `let` en vez de `var`, JSDoc obligatorio en cada función, nombres en español, validar la entrada).
-3. **Verifican que se cargó:** *Open Customizations*, chat nuevo, *References*.
-4. Crean una skill con `/create-skill`, o a mano en `.github/skills/revisar-endpoint/SKILL.md`, que revise un endpoint y devuelva una tabla de problemas, y la ejecutan con `/revisar-endpoint`.
+2. Lanzar el promopt: ¿Qué validaciones le faltan al endpoint POST /products? Lista cada una con el caso concreto que fallaría.
+3. Lanzar el siguiente prompt: Agrega una función en src/app.js que valide el campo precio de un producto.
+5. Crean `.github/copilot-instructions.md` con **al menos 4 reglas verificables** (por ejemplo `const` y `let` en vez de `var`, JSDoc obligatorio en cada función, nombres en español, validar la entrada).
+6. **Verifican que se cargó:** *Open Customizations*, chat nuevo, *References*.
+7. Crean una skill con `/create-skill`, o a mano en `.github/skills/revisar-endpoint/SKILL.md`, que revise un endpoint y devuelva una tabla de problemas, y la ejecutan con `/revisar-endpoint`.
 
 **Parte 3: mejora un prompt (12 min)**
 
-1. Ejecutan "hazme validaciones" tal cual con Ask y guardan la respuesta.
+1. Ejecutan "hazme validaciones" tal cual en un Chat nuevo, sin contexto y guardan la respuesta en un archivo de notas. Normalmente es genérica: no sabe de qué validaciones hablas, ni en qué archivo, ni qué devolver.
 2. Lo reescriben con contexto, intención, restricciones y ejemplo (diapositivas 29 y 30) y comparan.
 3. La respuesta casi sirve: **iteran** con un mensaje de seguimiento preciso, sin empezar de cero.
 4. Guardan el prompt vago, el mejorado y el mensaje de iteración.
+5. Abre otro chat nuevo, adjunta src/app.js y escribe el prompt mejorado.
+6. ![alt text](image.png)
+7. Después del prompt, lanza lo siguiente: Está bien, pero el mensaje de error debe decir qué campo falló. Haz que devuelva todos los errores a la vez en un arreglo.
+8. Entregable final: Ll prompt vago, el mejorado y el mensaje de iteración, y comparan las respuestas.
+9. "Mientras más sepa Copilot de dónde, qué, cómo y con qué límites, menos tiene que adivinar."
 
 **Señales de alerta**
 
@@ -173,46 +184,113 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 **Diapositivas:** 35 (agent mode), 36 (limitar alcance), 37 (pruebas en verde), 38 (cobertura) y 39 (el ejercicio). Proyecto: `src/`, la API Express de la farmacia. El módulo de teoría dura 20 min de agent mode y 10 de pruebas.
 
-**Demo previa (8 min):** pide al agente Plan "agrega el campo `stock_minimo` a los productos y un endpoint `GET /products/bajo-stock`". Ajusta el plan, ejecútalo con Agent, recorre los diffs, rechaza un cambio y restaura un checkpoint. Deja claro que **no se activa la aprobación automática.**
+### Propósito del ejercicio
 
-**Reglas de negocio (se las das tal cual):** volumen 5 a 9 piezas = 5 %, 10 o más = 10 %. Cupones `SALUD10` (10 %) y `ADULTOMAYOR15` (15 %), sin distinguir mayúsculas. Cupón vencido o inexistente = `400`. Volumen y cupón se suman con **tope total de 20 %**. Si algún producto requiere receta, el pedido necesita `receta` (folio no vacío) o `400`. `cantidad` debe ser un entero mayor que cero. La respuesta incluye `subtotal`, `descuento`, `porcentaje_descuento` y `total`.
+Aquí **no se practica programar descuentos**, se practica **dirigir a un agente**: pedirle un plan, limitar su alcance, revisar lo que hace y comprobar que el resultado funciona con pruebas. La lógica de negocio es solo el pretexto. Al terminar, cada alumno debe poder decir:
 
-**Restricciones:** la lógica va en un `src/descuentos.js` nuevo; solo se modifican `src/app.js`, `src/descuentos.js` y archivos de pruebas; no se tocan los endpoints de `/products` ni se agregan dependencias.
+- Por qué conviene planear antes de ejecutar.
+- Qué pasa cuando el agente se sale del alcance y cómo detenerlo.
+- Por qué una prueba que pasa no prueba nada si no puede fallar.
 
-**Parte 1: planear (10 min)**
+### Los tres modos del agente
 
-1. Hacen un `git commit` (o una rama) como punto de retorno.
+En el selector del chat hay tres modos. Se eligen según lo que necesitas en ese momento:
+
+| Modo | Qué hace | Toca archivos | Cuándo usarlo |
+|---|---|---|---|
+| **Ask** | Responde preguntas y explica código | No | Entender algo antes de actuar |
+| **Plan** | Investiga el proyecto y propone un plan paso a paso | No (solo propone) | Antes de cualquier cambio de varios archivos |
+| **Agent** | Ejecuta: edita archivos, corre comandos en terminal, itera | Sí, con tu aprobación | Después de revisar el plan |
+
+> Edit aparece en versiones anteriores, pero está deprecado. Si algún alumno lo ve, que use Agent.
+
+**Flujo del ejercicio:** Plan (se lee y se ajusta) → Agent (se ejecuta con control) → Ask si quieren que les explique algo que no entendieron.
+
+**Qué decir:** *"Plan piensa y Agent hace. Si saltas el plan, el agente decide por ti. El plan es tu oportunidad de corregirlo antes de que toque un archivo."*
+
+### Por qué se dan las reglas de negocio tal cual
+
+Las reglas se entregan completas y sin ambigüedad por tres razones:
+
+1. **Evitan discutir requisitos.** Si cada alumno inventara las reglas, el tiempo se iría en decidir qué construir y no en practicar cómo dirigir al agente.
+2. **Hacen comparables los resultados.** Todos tienen la misma definición de "correcto", y las pruebas de la Parte 3 se escriben contra reglas conocidas.
+3. **Practican traducir reglas a un prompt.** Una regla bien escrita (con números, casos límite y qué devuelve) da un mejor plan que una descripción vaga. Es el mismo principio del Ejercicio 2.
+
+**Reglas de negocio (se las das tal cual):**
+
+- Volumen: 5 a 9 piezas = 5 %; 10 o más = 10 %.
+- Cupones `SALUD10` (10 %) y `ADULTOMAYOR15` (15 %), sin distinguir mayúsculas.
+- Cupón vencido o inexistente = `400`.
+- Volumen y cupón se suman con **tope total de 20 %**.
+- Si algún producto requiere receta, el pedido necesita `receta` (folio no vacío) o `400`.
+- `cantidad` debe ser un entero mayor que cero.
+- La respuesta incluye `subtotal`, `descuento`, `porcentaje_descuento` y `total`.
+
+**Restricciones (también tal cual):** la lógica va en un `src/descuentos.js` nuevo; solo se modifican `src/app.js`, `src/descuentos.js` y archivos de pruebas; no se tocan los endpoints de `/products` ni se agregan dependencias.
+
+### El comando `/compact`
+
+Cada conversación con el agente acumula mensajes, diffs y salidas de terminal. Cuando se alarga, el chat **pierde el hilo**: olvida restricciones, repite cosas o responde peor.
+
+`/compact` **resume la conversación** para liberar espacio y conservar lo esencial, sin empezar un chat desde cero.
+
+- **Cuándo usarlo:** la sesión ya es larga (muchos cambios, muchas ejecuciones de pruebas) o el agente empieza a olvidar lo acordado.
+- **Cómo:** escribe `/compact` en el chat.
+- **Después de compactar:** vuelve a escribir las **restricciones** (archivos permitidos, no tocar `/products`, sin dependencias). Un resumen puede perder detalles, y las restricciones son lo más importante de conservar.
+- **Alternativa:** si el tema cambia por completo, un chat nuevo es mejor que compactar.
+
+**Qué decir:** *"Compactar es como sacarle un resumen a la conversación. No es mágico: verifica que el agente siga respetando lo que pediste."*
+
+### Demo previa (8 min)
+
+Pide al agente **Plan**: "agrega el campo `stock_minimo` a los productos y un endpoint `GET /products/bajo-stock`". Ajusta el plan, ejecútalo con **Agent**, recorre los diffs, rechaza un cambio y restaura un checkpoint. Deja claro que **no se activa la aprobación automática.**
+
+### Parte 1: planear (10 min)
+
+1. **Guardan su avance** con un commit (o una rama) para poder volver si algo sale mal: `git add -A && git commit -m "Antes del ejercicio 4"`.
 2. Con el agente **Plan** pegan las reglas y las restricciones.
 3. Leen el plan y **ajustan al menos una cosa** (por ejemplo, la estructura de datos de los cupones).
 4. **No ejecutan todavía.**
 
-**Parte 2: ejecutar con control (20 min)**
+### Parte 2: ejecutar con control (20 min)
 
 1. Pasan al agente **Agent** y ejecutan el plan, sin aprobación automática.
 2. Leen **cada comando de terminal** antes de aprobarlo.
 3. Revisan los diffs por archivo y practican **Undo** en al menos un cambio que no les guste.
-4. Prueban un **checkpoint**: restauran uno y vuelven a avanzar. Si la sesión se alarga, `/compact`.
+4. Prueban un **checkpoint** (restaurar el estado de la sesión a un punto anterior): restauran uno y vuelven a avanzar. Si la sesión se alarga, usan `/compact` y repiten las restricciones.
 5. Verifican con `git status` que **solo** se tocaron los archivos permitidos.
 6. Prueban a mano con `npm start` en una terminal y `curl -X POST localhost:5000/orders` en otra.
+7. **Guardan su avance** con un commit de la versión que funciona. Lo necesitan para la mutación del paso 5 de la Parte 3.
 
-**Parte 3: pruebas en verde (25 min)**
+### Parte 3: pruebas en verde (25 min)
 
-1. Adjuntan `src/descuentos.js` y piden pruebas con Jest, y con supertest para `POST /orders` en `src/tests/`. Indican el estilo en el prompt (`test.each`, un caso borde por función).
-2. Piden que las ejecute **y que explique si el fallo está en la prueba o en el código antes de corregir.**
-3. Piden casos borde: 4 vs. 5 y 9 vs. 10 piezas, el tope de 20 %, receta faltante o inválida, cantidad negativa, cupón vencido y subtotal cero.
-4. Miden cobertura con `npx jest --selectProjects server --coverage --collectCoverageFrom=src/descuentos.js`.
-5. **Mutación manual:** cambian un `>=` por `>` en `descuentos.js`. Si ninguna prueba falla, las pruebas son débiles. Revierten el cambio.
+1. **Pedir las pruebas (5 min).** Adjuntan `src/descuentos.js` y `src/app.js` y piden pruebas con Jest, y con supertest para `POST /orders`, en `src/tests/descuentos.test.js` y `src/tests/orders.test.js`. Indican el estilo (`test.each`, un caso borde por función) y que **no modifiquen** el código. Leen las pruebas antes de ejecutarlas.
+2. **Ejecutar y analizar fallos (7 min).** Piden que ejecute `npm test` y que, por cada fallo, **explique si el error está en la prueba o en el código antes de corregir**. Deciden ellos y corrigen uno por uno hasta llegar a verde.
+3. **Casos borde (5 min).** Piden primero la lista de reglas **sin cubrir** y luego agregan solo lo que falte: 4 vs. 5 y 9 vs. 10 piezas, el tope de 20 %, receta ausente, vacía o con solo espacios, cantidad negativa, cero o decimal, cupón vencido, inexistente o en minúsculas, y subtotal cero.
+4. **Cobertura (3 min).** `npx jest --selectProjects server --coverage --collectCoverageFrom=src/descuentos.js`. Leen **% Lines** y, si está bajo, **Uncovered Line #s**.
+5. **Mutación manual (4 min).** Cambian un `>=` por `>` en `descuentos.js` y ejecutan `npm test`. Si ninguna prueba falla, las pruebas son débiles: agregan el caso de frontera que faltaba. Revierten con `git restore src/descuentos.js`.
 
-**Criterios:** `npm test` en verde, cobertura de `descuentos.js` mayor o igual a 85 %, `git status` solo con los archivos permitidos, la mutación hizo fallar al menos una prueba, y cupón vencido, cantidad negativa y receta sin folio devuelven `400`.
+**Mensaje clave:** la cobertura mide qué líneas se ejecutaron, no si las pruebas detectan errores. Eso lo demuestra la mutación.
 
-**Señales de alerta**
+### Criterios
+
+- `npm test` en verde.
+- Cobertura de `descuentos.js` mayor o igual a 85 %.
+- `git status` solo con los archivos permitidos.
+- La mutación hizo fallar al menos una prueba.
+- Cupón vencido, cantidad negativa y receta sin folio devuelven `400`.
+
+### Señales de alerta
 
 - El agente instala paquetes o edita `/products`: viola las restricciones. Que lo rechacen y acoten el prompt.
 - El agente modifica la **prueba** para que pase en vez de corregir el código.
 - Alguien salta el plan y ejecuta de inmediato: pregunta qué habría pasado con un plan revisado.
 - Alumnos sin commit previo no pueden deshacer: enséñales `git restore`.
+- Después de `/compact` el agente vuelve a tocar archivos no permitidos: repite las restricciones.
 
-**Cierre (3 min):** reflexión de 3 líneas: ¿qué hizo el agente que no pidieron, qué corrigieron y qué harían distinto en el prompt?
+### Cierre (3 min)
+
+Reflexión de 3 líneas: ¿qué hizo el agente que no pidieron, qué corrigieron y qué harían distinto en el prompt?
 
 ## Ejercicio 5: del mockup a React (30 min + 5 de teoría)
 
@@ -231,7 +309,11 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 **Parte 2: comparar e iterar (15 min)**
 
 1. Ponen el mockup junto a su página y **anotan 3 diferencias visuales concretas** (color del botón, espaciado, tamaño de la etiqueta).
-2. Iteran **dos veces** con mensajes precisos: una corrección visual ("las tarjetas deben tener 3 columnas en escritorio") y una mejora que no se ve en el mockup (estado vacío, estado de error o diseño responsivo).
+2. Iteran **dos veces** con mensajes precisos: 
+    1. Lanzas el siguiente prompt: En escritorio las tarjetas deben ir en 3 columnas con el mismo espaciado del mockup. La etiqueta "Requiere receta" debe tener el mismo color y tamaño que en la imagen.
+    2. Lanzas otro prompt: Agrega un estado vacío ("No se encontraron productos") cuando la búsqueda no tenga resultados.
+    3. Lanzas otro prompt: Si la API falla, muestra un mensaje de error claro y un botón para reintentar.
+    4. Lanzas el ultimo prompt: Haz el diseño responsivo: 1 columna en celular, 2 en tableta y 3 en escritorio.
 
 **Parte 3: revisión (5 min)**
 
@@ -254,22 +336,104 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 ## Demo del bloque 10 y ejercicio opcional
 
-**Diapositivas:** 42 (cloud agent), 43 (code review y MCP) y 44 (ejercicio opcional). Es una **demo del instructor** de 25 minutos: los alumnos observan.
+**Diapositivas:** 42 (cloud agent), 43 (code review y MCP) y 44 (ejercicio opcional). Es una **demo del instructor** de 25 minutos: los alumnos observan, no ejecutan.
 
-**Preparación (antes del día del curso)**
+### Propósito
 
-1. Redacta un issue claro (contexto, criterios de aceptación, restricciones) y asígnalo a Copilot con anticipación. La tarea tarda varios minutos y consume créditos.
-2. Prepara un PR de respaldo con errores deliberados para el code review, porque Copilot puede no dejar ningún comentario.
-3. Agrega `.vscode/mcp.json` con el servidor de Microsoft Learn y comprueba que conecta en tu cuenta (una política de la organización puede bloquear MCP).
+Hasta ahora todo pasó dentro del editor. Este bloque muestra que Copilot también trabaja **en GitHub**, alrededor del código: resume cambios, hace tareas por su cuenta y revisa. El mensaje es el mismo del día: Copilot propone, **tú revisas y decides**.
 
-**Guion de la demo**
+### Conceptos (6 min, antes de la demo)
 
-1. **Resumen de PR:** crea un PR y usa el botón de Copilot en la descripción. Revísalo antes de publicarlo.
-2. **Cloud agent:** muestra el issue asignado y el PR que ya generó (no esperes en vivo). Pide un ajuste con `@copilot`.
-3. **Code review:** agrega a Copilot como revisor. Muestra que sus comentarios son de tipo *Comment*, la opción **Fix with Copilot** y que consume créditos y minutos de Actions. Si no deja comentarios, pasa al PR de respaldo.
-4. **MCP:** conecta Microsoft Learn y haz una pregunta que use la documentación. Recuerda instalar solo servidores de fuentes de confianza.
+Explícalos en este orden, porque cada uno se apoya en el anterior. Una frase y un ejemplo, sin diapositivas largas.
 
-**Ejercicio opcional: revisar un PR (20 min, fuera de la agenda)** · `ejercicios/ej-opcional-revision-pr/`
+**1. Pull request (PR)**
+Una propuesta de cambio. Trabajas en una rama aparte, y el PR le pide al equipo: "revisen estos cambios antes de mezclarlos en la rama principal". Contiene los archivos modificados (diff), una descripción y los comentarios de la revisión.
+*Qué decir:* "El PR es donde otra persona (o Copilot) mira tu código antes de que llegue a producción."
+
+**2. Code review (revisión de código)**
+Alguien lee los cambios de un PR y deja comentarios o los aprueba. Con Copilot, lo agregas como **revisor** del PR y él comenta posibles errores y mejoras.
+*Qué decir:* "Copilot es un segundo par de ojos, no el aprobador. Puede dejar falsos positivos o no encontrar nada. La decisión de aprobar sigue siendo tuya."
+
+**3. Cloud agent (agente en la nube)**
+Es Copilot trabajando **en GitHub, no en tu editor**. Le asignas un issue, trabaja en segundo plano en su propio entorno, crea una rama y abre un PR con lo que hizo. Tú lo revisas como el de cualquier compañero. A diferencia del modo Agent del IDE, **no estás presente mientras trabaja**.
+*Qué decir:* "Agent en VS Code trabaja contigo, al lado. El cloud agent trabaja solo y te entrega un PR. Por eso el issue debe estar muy bien escrito: no puede preguntarte a mitad del camino."
+
+**4. MCP (Model Context Protocol)**
+Un estándar para **conectar a Copilot con herramientas y fuentes de datos externas** mediante servidores. Sin MCP, Copilot solo conoce lo que tiene entrenado y lo que ve en tu proyecto. Con MCP puede consultar documentación actual, una base de datos, un sistema de tickets, etc.
+*Qué decir:* "Es como un conector USB para la IA. Cada servidor MCP le da una capacidad nueva. Por eso hay que instalar solo servidores de fuentes de confianza: lo que conectas puede leer o hacer cosas."
+
+### Preparación (antes del día del curso)
+
+**Dónde se hace todo:** en un **repositorio de GitHub de demostración** (puede ser una copia del repo maestro en tu cuenta u organización). El cloud agent y el code review viven en GitHub, así que no funcionan con un repo solo local.
+
+**1. Revisa los requisitos**
+- Tu plan debe incluir el cloud agent (puede requerir plan de pago).
+- En Business y Enterprise, un administrador debe haberlo habilitado en la organización y en el repositorio. Si no ves a Copilot entre los *Assignees*, es lo primero que hay que revisar.
+- Haz la prueba **al menos un día antes**: tarda varios minutos y consume créditos.
+
+**2. Crea el issue**
+Ve al repositorio de demo → pestaña **Issues** → **New issue**. Escríbelo como si lo recibiera alguien que no puede hacerte preguntas: contexto, qué hacer, criterios de aceptación y restricciones. Después, en el panel derecho, en **Assignees**, selecciona **Copilot**.
+
+Ejemplo de issue (ajústalo a tu repo antes de usarlo):
+
+```
+Título: Validar que el precio sea positivo al crear un producto
+
+Contexto
+POST /products acepta cualquier valor en `precio`, incluso cero o negativos.
+La API está en `src/` (Express, CommonJS) y las pruebas usan Jest + supertest.
+
+Qué hacer
+- Rechazar con 400 y un mensaje claro si `precio` no es un número mayor que cero.
+- Agregar pruebas en `src/tests/` para precio válido, cero, negativo y texto.
+
+Criterios de aceptación
+- `npm test` en verde.
+- No se modifica ningún otro endpoint.
+- No se agregan dependencias.
+
+Restricciones
+- Solo se tocan `src/app.js` y archivos de prueba.
+- Sin datos reales: todo es ficticio.
+```
+
+Elige una tarea **pequeña y acotada**. Una tarea grande tarda más, cuesta más y es más difícil de revisar en vivo. Evita el mismo tema del Ejercicio 4 para que no se confundan.
+
+**3. Deja el PR del agente listo**
+Cuando termine, el agente abre un PR (normalmente un borrador, en una rama propia). Revísalo tú antes del curso: ten claro qué cambió y qué pedirías ajustar.
+
+**4. Prepara el PR de respaldo para el code review**
+Copilot puede no dejar ningún comentario, así que ten un PR con errores deliberados. Una opción rápida es crear una rama que agregue los archivos de `ejercicios/ej-opcional-revision-pr/` (`ajusteStock.js` y su prueba) y abrir un PR hacia la rama principal. Ese código ya tiene errores intencionales.
+
+**5. Prepara MCP**
+Crea `.vscode/mcp.json` con el servidor de Microsoft Learn y comprueba que conecta en tu cuenta. Una política de la organización puede bloquear MCP.
+
+```json
+{
+  "servers": {
+    "microsoft-learn": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp"
+    }
+  }
+}
+```
+
+### Guion de la demo (25 min)
+
+| Min | Qué | Qué decir o hacer |
+|---|---|---|
+| 0–6 | **Conceptos** | PR, code review, cloud agent y MCP (sección anterior). |
+| 6–10 | **Resumen de PR** | Crea un PR y usa el botón de Copilot en la descripción. Léelo antes de publicarlo: si dice algo que no hiciste, corrígelo. |
+| 10–15 | **Cloud agent** | Muestra el issue ya asignado y el PR que generó (no esperes en vivo). Recorre el diff como en cualquier PR. Deja un comentario con `@copilot` pidiendo un ajuste pequeño y muestra que responde. |
+| 15–20 | **Code review** | Abre el PR de respaldo → **Reviewers** → agrega a **Copilot**. Muestra que sus comentarios son de tipo *Comment* (no aprueban ni bloquean), la opción **Fix with Copilot** y que consume créditos y minutos de Actions. Si no deja comentarios, dilo y úsalo como lección. |
+| 20–25 | **MCP** | Con `mcp.json` listo, pregunta en el chat (modo Agent): *"Según la documentación oficial de Microsoft Learn, ¿cómo configuro una variable de entorno en Azure App Service?"* Muestra que consultó la fuente. Recuerda instalar solo servidores de confianza. |
+
+**Qué debe quedar claro al cierre:** el cloud agent y el code review **entregan propuestas**, no decisiones. Siempre hay una persona que revisa y aprueba.
+
+### Ejercicio opcional: revisar un PR (20 min, fuera de la agenda)
+
+`ejercicios/ej-opcional-revision-pr/`
 
 1. Leen `DESCRIPCION_DEL_PR.md` y el código de `ajusteStock.js`, **sin corregir nada** en las partes 1 y 2.
 2. Ejecutan `npm run test:ej -- ej-opcional` y prueban la app con `node ejercicios/ej-opcional-revision-pr/demoApp.js` (puerto 5001).
@@ -279,4 +443,13 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 **Cuándo usarlo:** para quien termine un ejercicio antes o como tarea posterior. Si vas justo de tiempo, omítelo sin problema.
 
-**Cierre del día (diapositivas 45 y 46):** tres ideas para llevarse (revisa, acota, itera), la regla de oro (si no puedes explicar lo que hace una sugerencia, no la aceptes) y recordar que su copia del repo queda con su propio historial de commits.
+### Señales de alerta
+
+- Copilot no aparece entre los *Assignees*: el cloud agent no está habilitado en la organización o el repo.
+- El agente de la nube tarda más de lo esperado: por eso se prepara con anticipación.
+- El code review no deja comentarios: usa el PR de respaldo.
+- MCP no conecta: puede ser una política de la organización. Ten una captura de pantalla de respaldo.
+
+### Cierre del día (diapositivas 45 y 46)
+
+Tres ideas para llevarse (revisa, acota, itera), la regla de oro (si no puedes explicar lo que hace una sugerencia, no la aceptes) y recordar que su copia del repo queda con su propio historial de commits.

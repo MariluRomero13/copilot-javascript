@@ -1,0 +1,16 @@
+---
+name: revisar-endpoint
+description: Revisa un endpoint de Express y lista problemas de validación, seguridad y pruebas faltantes.
+---
+Revisa el endpoint que indique el usuario (o el seleccionado en el editor).
+
+Devuelve solo una tabla con estas columnas:
+| Problema | Gravedad (alta, media, baja) | Cómo reproducirlo |
+
+Revisa, como mínimo:
+- Validación de la entrada.
+- Códigos de estado y formato del error.
+- Riesgos de seguridad.
+- Pruebas que faltan.
+
+No modifiques ningún archivo.

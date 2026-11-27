@@ -1,0 +1,20 @@
+Convierte el mockup adjunto (mockup-catalogo.png) en un componente React para el catálogo de una farmacia.
+
+Contexto:
+- El proyecto usa React con Vite. La interfaz está en web/ y se renderiza desde web/App.jsx.
+- La API (Express, puerto 5000) expone GET /products. Cada producto tiene nombre, categoria, precio y requiere_receta. También acepta el parámetro ?categoria=.
+
+Qué quiero:
+- Crea web/Catalogo.jsx y su archivo de estilos web/Catalogo.css, y úsalos desde web/App.jsx.
+- Muestra una tarjeta por producto con nombre, categoría y precio, igual que el mockup.
+- Los productos con requiere_receta muestran una etiqueta "Requiere receta", como en el mockup.
+- Carga los productos con fetch dentro de un useEffect desde GET /products.
+- Agrega un selector de categoría que use el parámetro ?categoria= de la API.
+- Agrega una búsqueda que filtre por nombre.
+
+Restricciones:
+- Solo React y CSS propio. No uses librerías de componentes ni de estilos.
+- No agregues dependencias nuevas.
+- No modifiques web/App.test.jsx ni los archivos de src/.
+- Pinta los datos con JSX; no uses dangerouslySetInnerHTML.
+- El buscador y el selector deben tener etiqueta accesible.

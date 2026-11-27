@@ -1,0 +1,25 @@
+/**
+ * Inventario de una farmacia.
+ *
+ * Cada producto es un objeto con:
+ *  - sku: texto único que identifica el producto
+ *  - nombre: texto
+ *  - stock: número de unidades disponibles
+ *  - precio: número, precio por unidad
+ *  - caducidad: objeto Date con la fecha de caducidad
+ *
+ * Reglas:
+ *  - agregar(producto): guarda el producto. Si el sku ya existe, lanza un Error.
+ *  - eliminar(sku): elimina el producto. Si el sku no existe, lanza un Error.
+ *  - buscar(texto): devuelve los productos cuyo nombre contiene el texto,
+ *    sin distinguir mayúsculas de minúsculas.
+ *  - stockBajo(umbral): devuelve los productos con stock estrictamente menor al umbral.
+ *  - proximosACaducar(dias, hoy): devuelve los productos que ya caducaron o que
+ *    caducan dentro de los próximos "dias" días contados desde "hoy", ordenados
+ *    del más urgente al menos urgente. "hoy" es opcional y, si no se indica,
+ *    se usa la fecha actual.
+ *  - reporte(): devuelve { productos, unidades, valorTotal }, donde productos es la
+ *    cantidad de productos, unidades es la suma de stock y valorTotal es la suma
+ *    de stock multiplicado por precio.
+ */
+class Inventario {

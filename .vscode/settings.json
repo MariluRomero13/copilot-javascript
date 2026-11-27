@@ -1,5 +1,13 @@
 {
   "editor.inlineSuggest.enabled": true,
   "github.copilot.nextEditSuggestions.enabled": true,
-  "chat.promptFiles": true
+  "chat.promptFiles": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": false,
+    "scminput": true,
+    "javascript": true
+  },
+  "github.copilot.chat.codesearch.enabled": true
 }
