@@ -1,0 +1,7 @@
+PROMPT
+
+En src/app.js (adjunto), el endpoint POST /products no valida su entrada. Agrega validaciones para nombre (texto no vacío), precio (número mayor que 0) y categoria (una de las existentes). Si algo falla, responde 400 con { "error": "<motivo>" }. No modifiques los otros endpoints ni agregues dependencias. Muestra solo el código del endpoint modificado.
+
+ITERACION
+
+Está bien, pero el mensaje de error debe decir qué campo falló. Haz que devuelva todos los errores a la vez en un arreglo.

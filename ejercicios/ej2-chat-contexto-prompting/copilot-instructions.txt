@@ -15,3 +15,4 @@
 
 ## Restricciones
 - No agregues dependencias nuevas sin preguntar.
+- Empieza cada respuesta con Hola equipo.

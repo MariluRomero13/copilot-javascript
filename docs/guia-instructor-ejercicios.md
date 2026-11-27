@@ -13,12 +13,12 @@ Cada ejercicio sigue el mismo ritmo de cinco pasos, y esta guía te da el guion 
 | Ejercicio | Diapositivas | Carpeta de alumnos | Tiempo |
 | --- | --- | --- | --- |
 | 0. Verificar el entorno | Antes del curso | `ejercicios/ej0-verificar-entorno/` | 10 min |
-| 1. Autocompletado | 18, 19 y 20 | `ejercicios/ej1-autocompletado/` | 30 + 50 min |
-| 2. Chat, instrucciones y skill | 29 a 32 | `ejercicios/ej2-chat-contexto-prompting/` y `.github/` | 30 min |
-| 3. Código legacy | 33 y 34 | `ejercicios/ej3-codigo-legacy/` | 30 min |
-| 4. Descuentos con el agente | 35 a 39 | `src/` | 55 min |
-| 5. Mockup a React | 40 y 41 | `web/` | 30 min |
-| Opcional: revisar un PR | 44 | `ejercicios/ej-opcional-revision-pr/` | 20 min |
+| 1. Autocompletado | 15, 16 y 17 | `ejercicios/ej1-autocompletado/` | 30 + 50 min |
+| 2. Chat, instrucciones y skill | 18 a 28 | `ejercicios/ej2-chat-contexto-prompting/` y `.github/` | 30 min |
+| 3. Código legacy | 29 a 31 | `ejercicios/ej3-codigo-legacy/` | 30 min |
+| 4. Descuentos con el agente | 32 a 36 | `src/` | 55 min |
+| 5. Mockup a React | 37 | `web/` | 30 min |
+| Opcional: revisar un PR | 39 a 41 | `ejercicios/ej-opcional-revision-pr/` | 20 min |
 
 **Regla para todos:** commit al terminar cada ejercicio (`git add -A && git commit -m "Ejercicio N"`) y trabajar en la rama `main` de su propia copia, nunca en el repo del instructor.
 
@@ -28,7 +28,8 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 **Antes de empezar:** confirma que la plantilla es pública o que todos tienen acceso, y que cada alumno ya tiene su copia (*Use this template*).
 
-1. Pide que abran su copia en Codespaces (o en VS Code local).
+0. Crear su repositorio a través del template: https://github.com/MariluRomero13/copilot-curso-alumnos
+1. Pide que abran su copia VS Code.
 2. Que ejecuten `npm install` y `npm test`. Deben ver **3 pruebas pasando**.
 3. Que ejecuten `npm start` y abran `http://localhost:5000/products`. Después `Ctrl+C`.
 4. **Comprobación de Copilot,** en este orden:
@@ -47,7 +48,7 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 ## Ejercicio 1: autocompletado (30 + 50 min)
 
-**Diapositivas:** 18 (tres técnicas), 19 (cuatro teclas) y 20 (el ejercicio). **Regla del ejercicio:** nada de chat, solo autocompletado, comentarios y NES.
+**Diapositivas:** 15 (tres técnicas), 16 (cuatro teclas) y 17 (el ejercicio). **Regla del ejercicio:** nada de chat, solo autocompletado, comentarios y NES.
 
 **Antes de empezar (5 min)**
 
@@ -94,7 +95,7 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 ## Ejercicio 2: chat, instrucciones y skill (30 min)
 
-**Antes de este ejercicio** das los módulos de chat, contexto y prompting con las diapositivas 21 a 31. **Para este ejercicio:** diapositiva 32. Archivos: `ejercicios/ej2-chat-contexto-prompting/utilidades.js` y `src/app.js`.
+**Antes de este ejercicio** das los módulos de chat, contexto y prompting con las diapositivas 18 a 28. **Para este ejercicio:** diapositiva 32. Archivos: `ejercicios/ej2-chat-contexto-prompting/utilidades.js` y `src/app.js`.
 
 **Demo previa (5 min, dentro del bloque 4)**
 
@@ -107,7 +108,8 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 1. `f1` con inline chat (`Ctrl+I`): renombrar con nombres descriptivos, usar `const` y `let` y agregar JSDoc.
 2. `f2` con inline chat: pedir JSDoc en español con parámetros, retorno y un ejemplo. Si no aparece, la instrucción debe ser explícita.
 3. `f3`: pedir que explique la función. El promedio móvil falla en los últimos elementos: que **pidan la causa antes de aceptar el arreglo.**
-4. Con el agente **Ask**, la misma pregunta con dos modelos (uno específico y **Auto**) y anotar cuál respondió mejor y por qué.
+4. `f4`: ¿Qué hace esta función y qué pasa si pct es mayor que 100 o negativo?
+5. Con el agente **Ask**, la misma pregunta con dos modelos (uno específico y **Auto**) y anotar cuál respondió mejor y por qué.
 
 **Parte 2: contexto e instrucciones (10 min)**
 
@@ -141,7 +143,7 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 ## Ejercicio 3: rescatar el script legacy (30 min)
 
-**Diapositivas:** 33 (cómo entender código ajeno) y 34 (el ejercicio). Carpeta: `ejercicios/ej3-codigo-legacy/`. Se ejecuta con `node reporte_ventas.js ventas.csv` y debe mostrar el top 3 de vendedores, el ticket promedio por sucursal y el total.
+**Diapositivas:** 29 a 31 (cómo entender código ajeno). Carpeta: `ejercicios/ej3-codigo-legacy/`. Se ejecuta con `node reporte_ventas.js ventas.csv` y debe mostrar el top 3 de vendedores, el ticket promedio por sucursal y el total.
 
 **Teoría previa (10 min):** panorama con Ask, detalle por selección, mapa de dependencias y el reporte de bug (esperado, obtenido, reproducción). Regla: **primero la causa, después la corrección.**
 
@@ -182,7 +184,7 @@ El objetivo es descubrir los problemas de entorno antes del autocompletado, porq
 
 ## Ejercicio 4: descuentos con el agente y pruebas (55 min)
 
-**Diapositivas:** 35 (agent mode), 36 (limitar alcance), 37 (pruebas en verde), 38 (cobertura) y 39 (el ejercicio). Proyecto: `src/`, la API Express de la farmacia. El módulo de teoría dura 20 min de agent mode y 10 de pruebas.
+**Diapositivas:** 32 (agent mode), 33 (limitar alcance), 34 (pruebas en verde), 35 (cobertura) y 36 (el ejercicio). Proyecto: `src/`, la API Express de la farmacia. El módulo de teoría dura 20 min de agent mode y 10 de pruebas.
 
 ### Propósito del ejercicio
 
@@ -294,7 +296,7 @@ Reflexión de 3 líneas: ¿qué hizo el agente que no pidieron, qué corrigieron
 
 ## Ejercicio 5: del mockup a React (30 min + 5 de teoría)
 
-**Diapositivas:** 40 (del mockup al componente) y 41 (el ejercicio). Archivos: `ejercicios/ej5-imagen-a-codigo/mockup-catalogo.png` y `web/`. Necesitan un **modelo con visión**; compruébalo antes, porque no todos los modelos leen imágenes.
+**Diapositivas:** 37 (del mockup al componente) y 37 (el ejercicio). Archivos: `ejercicios/ej5-imagen-a-codigo/mockup-catalogo.png` y `web/`. Necesitan un **modelo con visión**; compruébalo antes, porque no todos los modelos leen imágenes.
 
 **Requisitos del componente:** `web/Catalogo.jsx` renderizado desde `App.jsx`; tarjetas cargadas con `fetch` dentro de `useEffect` desde `GET /products`; etiqueta **"Requiere receta"** como en el mockup; filtro de categoría con `?categoria=`; búsqueda por nombre; solo React y CSS propio, sin librerías de componentes ni de estilos.
 
@@ -336,7 +338,7 @@ Reflexión de 3 líneas: ¿qué hizo el agente que no pidieron, qué corrigieron
 
 ## Demo del bloque 10 y ejercicio opcional
 
-**Diapositivas:** 42 (cloud agent), 43 (code review y MCP) y 44 (ejercicio opcional). Es una **demo del instructor** de 25 minutos: los alumnos observan, no ejecutan.
+**Diapositivas:** 39 (cloud agent), 40 (code review y MCP) y 41 (ejercicio opcional). Es una **demo del instructor** de 25 minutos: los alumnos observan, no ejecutan.
 
 ### Propósito
 
